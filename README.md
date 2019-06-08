@@ -8,8 +8,8 @@ PonziPedia is fast, secured, and it will be regularly updated.<br>
 <blockquote>Check out the complete features online <a href="http://ponzipedia.ml" rel="nofollow">Online Demo</a>
 </blockquote>
 <blockquote>2 Support System included!</blockquote><br><br>
+<blockquote>Includes Documentation!</blockquote><br><br>
 
-<a href="https://ponzipedia.ml" rel="nofollow"><img src="https://ponzipedia.ml/images/image101.png"></a><br><br>
 PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5qvuuOrhBk" rel="nofollow">Watch how to install PonziPedia</a><br> Online Documentation <a href="http://docs.maylancer.cf">Installation Guides</a><br>
 <br>
 <h2 id="item-description__user-features-demo">User Features  (<a href="https://ponzipedia.ml" rel="nofollow">Demo</a>)</h2>
