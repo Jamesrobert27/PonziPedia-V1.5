@@ -14,8 +14,8 @@ PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5q
 <br>
 
 <code>
-        #To install 
-        git clone https://github.com/olakunlevpn/PonziPedia-V1.5.git<br><br>
+        #To install </code>
+        <code>git clone https://github.com/olakunlevpn/PonziPedia-V1.5.git</code>
         cd PonziPedia-V1.5 <br><br>
         Composer update<br>
         #Read the documentation to set up database and others its well explained
