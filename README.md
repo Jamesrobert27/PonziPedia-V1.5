@@ -7,19 +7,19 @@ PonziPedia is fast, secured, and it will be regularly updated.<br>
 </p><blockquote>PonziPedia initial release v1.5</blockquote>
 <blockquote>Check out the complete features online <a href="http://ponzipedia.ml" rel="nofollow">Online Demo</a>
 </blockquote>
-<blockquote>2 Support System included!</blockquote><br><br>
+<blockquote>2 Support System included!</blockquote><br>
 <blockquote>Includes Documentation!</blockquote><br><br>
 
 PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5qvuuOrhBk" rel="nofollow">Watch how to install PonziPedia</a><br> Online Documentation <a href="http://docs.maylancer.cf">Installation Guides</a><br>
 <br>
 
-<code>
-        #To install </code>
-        <code>git clone https://github.com/olakunlevpn/PonziPedia-V1.5.git</code>
-        cd PonziPedia-V1.5 <br><br>
-        Composer update<br>
-        #Read the documentation to set up database and others its well explained
-       </code>
+<blockquote><code>
+        #To install </code></blockquote>
+        <blockquote><code>git clone https://github.com/olakunlevpn/PonziPedia-V1.5.git</code></blockquote>
+        <blockquote><code>cd PonziPedia-V1.5 </code></blockquote>
+        <blockquote><code>Composer update</code></blockquote>
+        <blockquote><code>#Read the documentation to set up database and others its well explained</code></blockquote>
+      
 <h2 id="item-description__user-features-demo">User Features  (<a href="https://ponzipedia.ml" rel="nofollow">Demo</a>)</h2>
 <ul>
   <li>
