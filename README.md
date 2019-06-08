@@ -12,6 +12,14 @@ PonziPedia is fast, secured, and it will be regularly updated.<br>
 
 PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5qvuuOrhBk" rel="nofollow">Watch how to install PonziPedia</a><br> Online Documentation <a href="http://docs.maylancer.cf">Installation Guides</a><br>
 <br>
+
+<code>
+        #To install 
+        git clone https://github.com/olakunlevpn/PonziPedia-V1.5.git
+        cd PonziPedia-V1.5 
+        Composer update
+        #Read the documentation to set up database and others its well explained
+       </code>
 <h2 id="item-description__user-features-demo">User Features  (<a href="https://ponzipedia.ml" rel="nofollow">Demo</a>)</h2>
 <ul>
   <li>
