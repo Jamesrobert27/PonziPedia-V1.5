@@ -8,9 +8,7 @@ PonziPedia is fast, secured, and it will be regularly updated.<br>
 <blockquote>Check out the complete features online <a href="http://ponzipedia.ml" rel="nofollow">Online Demo</a>
 </blockquote>
 <blockquote>2 Support System included!</blockquote><br><br>
-<img src="https://ponzipedia.ml/images/gradient-bg-Recovered.jpg">
-<img src="https://ponzipedia.ml/images/desc-main-Recoveredko.png">
-<img src="https://ponzipedia.ml/images/image7.png">
+
 <a href="https://ponzipedia.ml" rel="nofollow"><img src="https://ponzipedia.ml/images/image101.png"></a><br><br>
 PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5qvuuOrhBk" rel="nofollow">Watch how to install PonziPedia</a><br> Online Documentation <a href="http://docs.maylancer.cf">Installation Guides</a><br>
 <br>
@@ -102,7 +100,7 @@ Internationalization (optional)<br>
 <a href="https://facebook.com/olakunlevpn" rel="nofollow">Contact Me Here</a><br>
 <h2 id="item-description__updates">Updates</h2>
  <h5 id="item-description__version-1-5-5-2-04-06-2018">
-<strong>Version 1.5 </strong> 05/02/2018</h5>
+<strong>Version 1.5 </strong> 05/02/2019</h5>
 <blockquote>
 <li> Added: Member Court Case</li>
 <li> Added: Support Tickets System</li>
