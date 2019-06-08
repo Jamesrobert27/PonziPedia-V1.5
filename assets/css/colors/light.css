@@ -1,0 +1,53 @@
+.navbar-top  {
+	background: #e5e5e5;
+}
+.navbar-top .navbar-toggle {
+	border-color: #ccc;
+}
+.navbar-top .navbar-toggle:hover,
+.navbar-top .navbar-toggle:focus {
+	background:#ddd;
+}
+.navbar-top .navbar-toggle .icon-bar {
+	background: #aaa;
+}
+
+.navbar-top .navbar-brand,
+.navbar-top .navbar-nav>li>a,
+.navbar-top .dropdown-menu>li>a {
+	color: #666;
+}
+.navbar-top .navbar-brand:hover {
+	color: #888;
+}
+
+.navbar-top .navbar-nav>.active>a, 
+.navbar-top .navbar-nav>.active>a:hover, 
+.navbar-top .navbar-nav>.active>a:focus,
+.navbar-top .nav .open>a, 
+.navbar-top .nav .open>a:hover, 
+.navbar-top .nav .open>a:focus,
+.navbar-top .navbar-nav>.active>a, 
+.navbar-top .navbar-nav>.active>a:hover, 
+.navbar-top .navbar-nav>.active>a:focus,
+.navbar-top .navbar-nav>.open>a, 
+.navbar-top .navbar-nav>.open>a:hover, 
+.navbar-top .navbar-nav>.open>a:focus,
+.navbar-top .nav>li>a:hover, 
+.navbar-top .nav>li>a:focus,
+.nav-pills>li>a:hover,
+.nav-pills>li>a:focus {
+	color: #fff;
+	background: #888;
+}
+
+.navbar-top .dropdown-menu {
+	border: none;
+	background: #fff;
+}
+
+.navbar-top .dropdown-menu>li>a:hover, 
+.navbar-top .dropdown-menu>li>a:focus {
+	color: #2ea2cc;
+	background-color: inherit;
+}

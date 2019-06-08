@@ -1,0 +1,82 @@
+.navbar-top  {
+	background: #52accc;
+}
+
+.navbar-top .navbar-toggle {
+	border-color: #0F89B4;
+}
+.navbar-top .navbar-toggle:hover,
+.navbar-top .navbar-toggle:focus {
+	background: #33A5CE;
+}
+.navbar-top .navbar-toggle .icon-bar {
+	background: #228AAF;
+}
+
+.navbar-top .navbar-brand,
+.navbar-top .navbar-nav>li>a,
+.navbar-top .dropdown-menu>li>a {
+	color: #fff;
+}
+.navbar-top .navbar-brand:hover {
+	color: #096484;
+}
+
+.navbar-top .navbar-nav>.active>a, 
+.navbar-top .navbar-nav>.active>a:hover, 
+.navbar-top .navbar-nav>.active>a:focus,
+.navbar-top .nav .open>a, 
+.navbar-top .nav .open>a:hover, 
+.navbar-top .nav .open>a:focus,
+.navbar-top .navbar-nav>.active>a, 
+.navbar-top .navbar-nav>.active>a:hover, 
+.navbar-top .navbar-nav>.active>a:focus,
+.navbar-top .navbar-nav>.open>a, 
+.navbar-top .navbar-nav>.open>a:hover, 
+.navbar-top .navbar-nav>.open>a:focus,
+.navbar-top .nav>li>a:hover, 
+.navbar-top .nav>li>a:focus,
+.nav-pills>li>a:hover,
+.nav-pills>li>a:focus {
+	color: #fff;
+	background: #096484;
+}
+
+.navbar-top .dropdown-menu {
+	border: none;
+	background: #4796b3;
+}
+
+.navbar-top .dropdown-menu>li>a, 
+.navbar-top .dropdown-menu>li>a {
+	color: #e2ecf1;
+}
+
+.navbar-top .dropdown-menu>li>a:hover, 
+.navbar-top .dropdown-menu>li>a:focus {
+	color: #fff;
+	background-color: inherit;
+}
+
+input[type=checkbox]:checked:before {
+	color: #096484;
+}
+input[type=radio]:checked:before {
+	background: #096484;
+}
+
+.btn-primary,
+.btn-primary[disabled],
+.btn-primary[disabled]:hover,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:active {
+	background: #e1a948;
+	border-color: #d39323;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+	background: #dd9f32;
+	border-color: #bd831f;
+}

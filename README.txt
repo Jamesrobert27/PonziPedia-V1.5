@@ -1,0 +1,1 @@
+Read documentation on how to install script online https://ponzipedia.ml/docs
