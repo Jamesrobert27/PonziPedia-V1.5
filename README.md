@@ -2,10 +2,10 @@
 PonziPedia - Peer 2 Peer 50% ROI Donation System script
 <div data-view="toggleItemDescription">
         <div class="js-item-description item-description has-toggle">
-          <div class="user-html"><p><strong><a href="http://ponzipedia.ml" rel="nofollow">PonziPedia</a></strong> - Peer 2 Peer 50% ROI Donation System script, PonziPedia is the best way to start your own pair 2 pair donation website!<br>
+          <div class="user-html"><p><strong><a href="http://u335932479.hostingerapp.com/" rel="nofollow">PonziPedia</a></strong> - Peer 2 Peer 50% ROI Donation System script, PonziPedia is the best way to start your own pair 2 pair donation website!<br>
 PonziPedia is fast, secured, and it will be regularly updated.<br>
 </p><blockquote>PonziPedia initial release v1.5</blockquote>
-<blockquote>Check out the complete features online <a href="http://ponzipedia.ml" rel="nofollow">Online Demo</a>
+<blockquote>Check out the complete features online <a href="http://u335932479.hostingerapp.com/" rel="nofollow">Online Demo</a>
 </blockquote>
 <blockquote>2 Support System included!</blockquote><br>
 <blockquote>Includes Documentation!</blockquote><br><br>
@@ -20,7 +20,7 @@ PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5q
         <blockquote><code>Composer update</code></blockquote>
         <blockquote><code>#Read the documentation to set up database and others its well explained</code></blockquote>
       
-<h2 id="item-description__user-features-demo">User Features  (<a href="https://ponzipedia.ml" rel="nofollow">Demo</a>)</h2>
+<h2 id="item-description__user-features-demo">User Features  (<a href="http://u335932479.hostingerapp.com/" rel="nofollow">Demo</a>)</h2>
 <ul>
   <li>
 <strong>High Level Cache System:</strong> The #1 thing that must be available on any high traffic website, The Speed ! We Speed up your website with our Cache system</li>
