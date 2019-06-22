@@ -19,6 +19,9 @@ PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5q
         <blockquote><code>cd PonziPedia-V1.5 </code></blockquote>
         <blockquote><code>Composer update</code></blockquote>
         <blockquote><code>#Read the documentation to set up database and others its well explained</code></blockquote>
+        <blockquote><code>Online demo Admin panel http://u335932479.hostingerapp.com/admin.php Username: walex Password: 123456</code></blockquote>
+        <blockquote><code>Online demo http://u335932479.hostingerapp.com/ Signup to view</code></blockquote>
+        
       
 <h2 id="item-description__user-features-demo">User Features  (<a href="http://u335932479.hostingerapp.com/" rel="nofollow">Demo</a>)</h2>
 <ul>
