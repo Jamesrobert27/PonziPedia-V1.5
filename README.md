@@ -10,7 +10,7 @@ PonziPedia is fast, secured, and it will be regularly updated.<br>
 <blockquote>2 Support System included!</blockquote><br>
 <blockquote>Includes Documentation!</blockquote><br><br>
 
-PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5qvuuOrhBk" rel="nofollow">Watch how to install PonziPedia</a><br> Online Documentation <a href="http://docs.maylancer.cf">Installation Guides</a><br>
+PonziPedia is very easy to install, <a href="https://www.youtube.com/watch?v=s5qvuuOrhBk" rel="nofollow">Watch how to install PonziPedia</a><br> Online Documentation <a href="http://u335932479.hostingerapp.com/docs/">Installation Guides</a><br>
 <br>
 
 <blockquote><code>
