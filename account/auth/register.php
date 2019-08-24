@@ -24,7 +24,7 @@ if (isset($_POST['submit']) && csrf_filter()) {
   if (Register::passes()) {
    
     if (Config::get('auth.email_activation')) {
-      redirect_to('signup.php', array('signup_complete' => true));
+      redirect_to('register.php', array('signup_complete' => true));
     } else {
       Auth::login($_POST['email'], $_POST['pass1']);
 
