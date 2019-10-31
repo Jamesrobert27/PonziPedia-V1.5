@@ -53,7 +53,7 @@ $settings = DB::table('settings')->where('id', 1)->first();
  }
  else{
     echo '<div class="alert alert-danger" role="alert">
-  You currently cant withdraw now please PH new payment to payout or wait till your PH is matured.
+  You currently cant withdraw now, you currently have payment to payout or wait till your PH is matured.
 </div>';
 }
 } 
