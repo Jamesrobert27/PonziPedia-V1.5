@@ -9,44 +9,22 @@
 // | Copyright (c) 2018 PonziPedia. All rights reserved.
 // +------------------------------------------------------------------------+
 
-function ActivationBlock(){
-    $user_request = DB::table('activationFee')->where('payment_status', 'pending')->get();
-
-    if ($user_request) {
-    foreach ($user_request as $row)
-    {
-
-      $timeCreated = $row->expiringTime;
-      $timeNow = date('Y-m-d H:i:s');
-      if ($timeCreated < $timeNow and $row->expiringTime != "NULL") {
-        DB::table('users')->where('id', $row->sender_id)->update(array('status' => '2'));
-        
-      }
-
-}
 
   
-}
-}
-ActivationBlock();
 
 //Mergin View for each member
 function GetActivationView($user_id)
 {
   $settings = DB::table('settings')->where('id', 1)->first();
-	$user_request = DB::table('activationFee')->where('sender_id', '=', $user_id)->where(function ($query) {$query->where('payment_status', '=', 'pending')->orWhere('payment_status', '=', 'waiting');})->take(5)->orderBy('id', 'DESC')->get();
-  
+	$user_request = DB::table('activationFee')->where('sender_id', $user_id)->where('payment_status', 'pending')->orWhere('payment_status', 'waiting')->take(1)->orderBy('id', 'DESC')->get();
 	if ($user_request) {
 		foreach ($user_request as $row) {
 			$receiver = $row->receiver_id;
-
-   
-
-      $timeCreated = $row->expiringTime; 
+      $timeCreated = $row->expiringTime;
       $timeNow = date('Y-m-d H:i:s');
       $userTimer = DB::table('activationFee')->where('id', $row->id)->first();
       if ($timeCreated < $timeNow and $row->expiringTime != "NULL") {
-         $BlockU = DB::table('users')->where('id', $user_id)->update(array('status' => '2'));
+         $BlockU = DB::table('users')->where('id', $user_id)->update(array('role_id' => '3'));
         if ($BlockU) {
           echo '<meta http-equiv="refresh" content="0">';
         }
@@ -68,7 +46,7 @@ function GetActivationView($user_id)
                       <h3>Activation Fees '.$settings->currency.''.$row->amount.'</h3>';
       if ($row->payment_status == "pending") {
       	echo '  <div class="card-body text-center" style="background-color: #dc3545; color: #fff;">You are to make payment to the receiver below<br>Time left to complete payment<br>
-                     <p class="timerSet" id="Activation'.$row->id.'" style="font-size: 25px;"></p></div>';}
+                     <p id="demo'.$row->id.'" style="font-size: 25px;"></p></div>';}
     elseif ($row->payment_status == "waiting") {
     	echo '  <div class="card-body text-center" style="background-color: #dc3545; color: #fff;">Your activation fees payment is waiting for Approval<br>Please wait while we check and confirm your account</div>';
     }
@@ -78,36 +56,40 @@ function GetActivationView($user_id)
     	echo '  <div class="card-body text-center" style="background-color: #dc3545; color: #fff;">Your request is not understood<br>Please try reload the page or contact for help</div>';
     }
      
-     if ($row->payment_status == "pending" || $row->payment_status == "waiting") {
-        $date=date_create($row->expiringTime);
-      $timenow = date_format($date,"Y/m/d H:i:s");
+     if ($row->payment_status == "pending") {
      
-      ?> 
-    <script>
-  jQuery(document).ready(function(){
-    jQuery("#Activation<?php echo $row->id; ?>").jCountdown({
-      timeText: "<?php echo $timenow; ?>",
-      timeZone:8,
-      style:"Crystal",
-      color:"black", 
-      width:250,
-      textGroupSpace:15,
-      textSpace:0,
-      reflection:false,
-      reflectionOpacity:10,
-      reflectionBlur:0,
-      dayTextNumber:2,
-      displayDay:true,
-      displayHour:true,
-      displayMinute:true,
-      displaySecond:true,
-      displayLabel:true,
-      onFinish:function(){
-        document.getElementById("Activation<?php echo $row->id; ?>").innerHTML = "blocked soon";
-      }
-    });
-  });
-</script>
+     
+      ?>
+      <script>
+// Set the date we're counting down to
+var countDownDate = new Date("<?php echo $userTimer->expiringTime; ?>").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+    
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+    
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);  
+    
+    // Output the result in an element with id="demo"
+    document.getElementById("demo<?php echo $row->id; ?>").innerHTML = days + "d |" + hours + "h | "
+    + minutes + "m |" + seconds + "s ";
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo<?php echo $row->id; ?>").innerHTML = "EXPIRED";
+    }
+}, 1000);
+</script>  
       <?php 
                     
                        
@@ -189,7 +171,7 @@ function confirmMyActivationFee($payment_method,$bankname,$accountnumber,$accoun
                        'expiringTime' => 'NULL',
                      ));
 
-        if ($Query) { 
+        if ($Query) {
 
 
     $user = DB::table('users')->where('id', $user_id)->first();
@@ -226,19 +208,15 @@ else{
 
 
 
- 
+
 //Receiver Homepage view of the sender information
 function ActivationReceiverView($user_id){
   $settings = DB::table('settings')->where('id', 1)->first();
-  $users = DB::table('activationFee')->where('receiver_id', '=', $user_id)->where(function ($query) {$query->where('payment_status', '=', 'pending')->orWhere('payment_status', '=', 'waiting');})->get();
-  
-    
- 
+  $users = DB::table('activationFee')->where('receiver_id', $user_id)->take(10)->orderBy('id', 'DESC')->get();
+
   foreach ($users as $row) {
-     $Susers = DB::table('users')->where('id', $row->sender_id)->first();
-    if ($Susers->status != 2) {
-      $senderusers = DB::table('userdetails')->where('userid', $row->sender_id)->first();
-   
+    $senderusers = DB::table('userdetails')->where('userid', $row->sender_id)->first();
+    $Susers = DB::table('users')->where('id', $row->sender_id)->first();
     echo ' 
          <div class="col-md-12"> 
                     <div class="work-amount card"><i class="fa fa-fire" style="color: red; font-size: 35px;margin-top: -10px;"></i>
@@ -291,8 +269,6 @@ function ActivationReceiverView($user_id){
                   </div>
                 </div>";
 }
-    }
-   
 }
 
 
@@ -300,24 +276,16 @@ function ActivationReceiverView($user_id){
 
 //Confirm user payment EG receiver confirm sender
 function confirmUserActivationPay($user_id, $sender_userid, $id){
-   $settings = DB::table('settings')->where('id', 1)->first();
  $sql = DB::table('activationFee')
         ->where('id', $id)->where('receiver_id', $user_id)->where('sender_id', $sender_userid)
         ->update(array('payment_status' => 'confirm'));
         if ($sql) {
       $BanalnceGet = DB::table('bank')->where('userid', $sender_userid)->first();
       $userActivation = DB::table('activationFee')->where('id', $id)->first();
-     
-
-
-
-        DB::table('notification')->insert(
-    array('userid' =>        $sender_userid,
-         'type' =>        "confirm",
-          'details' =>    "Your ".$settings->currency."".$userActivation->amount." activation fees payment is confirmed", 
-          'status'  =>    "verify",
-          'faIcon'     =>    "fa fa-usd")
-);
+      $BanalnceUp = $BanalnceGet->balance + $userActivation->amount;
+       DB::table('bank')
+        ->where('userid', $sender_userid)
+        ->update(array('balance' => $BanalnceUp));
 
 
            echo'<div class="alert alert-success" role="alert">
@@ -338,7 +306,14 @@ function confirmUserActivationPay($user_id, $sender_userid, $id){
         $mail = mail($user->email, $subject, $EmaiMessage, $headers);
 
         if ($mail) {
-       
+          $Querys =DB::table('notification')->insert(
+    array('userid' =>        $sender_userid,
+         'type' =>        "confirm",
+          'details' =>    "Your activation fees payment is confirmed", 
+          'status'  =>    "verify",
+          'faIcon'     =>    "fa fa-usd")
+);
+
          
         }
       }
@@ -355,7 +330,7 @@ function ReportUserActivation($user_id, $sender_userid, $id){
 
     $user = DB::table('userdetails')->where('userid', $sender_userid)->first();
     $users = DB::table('userdetails')->where('userid', $user_id)->first();
-     $pack = DB::table('marching')->where('receiver_id', $user_id)->where('id', $id)->first();
+     $pack = DB::table('marching')->where('receiver_id', $user_id)->first();
       $row = DB::table('users')->where('id', $user_id)->first();
       $rows = DB::table('users')->where('id', $sender_userid)->first();
 
