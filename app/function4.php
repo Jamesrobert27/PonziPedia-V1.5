@@ -16,7 +16,7 @@
 function GetActivationView($user_id)
 {
   $settings = DB::table('settings')->where('id', 1)->first();
-	$user_request = DB::table('activationFee')->where('sender_id', $user_id)->where('payment_status', 'pending')->orWhere('payment_status', 'waiting')->take(1)->orderBy('id', 'DESC')->get();
+	$user_request = DB::table('activationFee')->where('sender_id', $user_id)->where('payment_status', '!=', 'confirm')->take(1)->orderBy('id', 'DESC')->get();
 	if ($user_request) {
 		foreach ($user_request as $row) {
 			$receiver = $row->receiver_id;
@@ -47,7 +47,7 @@ function GetActivationView($user_id)
       if ($row->payment_status == "pending") {
       	echo '  <div class="card-body text-center" style="background-color: #dc3545; color: #fff;">You are to make payment to the receiver below<br>Time left to complete payment<br>
                      <p id="demo'.$row->id.'" style="font-size: 25px;"></p></div>';}
-    elseif ($row->payment_status == "waiting") {
+    elseif ($row->payment_status == "waiting") { 
     	echo '  <div class="card-body text-center" style="background-color: #dc3545; color: #fff;">Your activation fees payment is waiting for Approval<br>Please wait while we check and confirm your account</div>';
     }
     elseif ($row->payment_status == "confirm") {
