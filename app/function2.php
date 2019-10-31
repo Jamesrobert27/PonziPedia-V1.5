@@ -104,9 +104,7 @@ function ChoosePackageNow($pack_id, $user_id){
   $startDate = time();
 	$timeX        =   date('Y-m-d H:i:s', strtotime('+'.$settings->ProvideHelpday.' day', $startDate));
 
-$CheckRequest = DB::table('requestMaching')->where('userid', '=', $user_id)->where(function ($query) {$query->where('status', '=', 'pending')->orWhere('status', '=', 'waiting');})->count();   
-
-
+$CheckRequest =  DB::table('requestMaching')->where('userid', $user_id)->where('status', "pending")->orWhere('status', 'running')->count();
 if ($CheckRequest > 0) {
 	echo '<div class="alert alert-danger" role="alert">
  You already have active or pending package with us, not allowed
@@ -166,7 +164,7 @@ else{
  	 $Querys =DB::table('notification')->insert(
     array('userid' =>        $user_id,
     	   'type' =>        "pack",
-          'details' =>    "You have successfully subscribed to a package" , 
+          'details' =>    "You have successfully subscribed to a package", 
           'status'  =>    "verify",
           'faIcon'     =>    "fa fa-fire")
 );
@@ -181,100 +179,6 @@ else{
 }
  }
 }
-
-
-
-//user Choose package with unlock code validation
-
-function  ChoosePackageNowLocked($pack_id, $user_id){
-  $settings = DB::table('settings')->where('id', 1)->first();
-  $user_package =  DB::table('packages')->where('id', $pack_id)->first();
-  $Amount       =  $user_package->price;
-  $Profit       =  $user_package->profit;
-  $days         =  $user_package->days;
-  $packagesName =  $user_package->packname;
-  $packagesId   =   $user_package->id;
-  $startDate = time();
-  $timeX        =   date('Y-m-d H:i:s', strtotime('+'.$settings->ProvideHelpday.' day', $startDate));
-
-$CheckRequest =  DB::table('requestMaching')->where('userid', '=', $user_id)->where(function ($query) {$query->where('status', '=', 'pending')->orWhere('status', '=', 'waiting');})->count();   
-if ($CheckRequest > 0) {
-  echo '<div class="alert alert-danger" role="alert">
- You already have active or pending package with us, not allowed
-</div>';
-}
-else{
-   //User Recommitment Percentage
-      $percentage = $settings->reccomitment;
-      $totalWidth = $user_package->profit;
-      $new_amount = ($percentage / 100) * $totalWidth;
-
-      $new_amountUpdate = $user_package->profit- $new_amount;
-
- $Query =DB::table('requestMaching')->insert(
-    array('userid' =>        $user_id,
-          'package_id' =>    $packagesId, 
-          'pack_name'  =>    $packagesName,
-          'amount'     =>    $Amount,
-          'profit'     =>    $new_amountUpdate,
-          'balance'     =>   $Amount,
-          'timeReq'     =>   $timeX,
-          'status'     =>    "pending")
-);
-
- if ($Query) {
-    
-  $getRef = DB::table('referral')->where('userid', $user_id)->count();
-    if ($getRef >=1) {
-      $getRefID = DB::table('referral')->where('userid', $user_id)->first();
-      DB::table('referral')
-        ->where('id', $getRefID->id)
-        ->update(array('package' => $packagesId,
-                       'amount' => $Amount));
-    }
-     
-     $getBalance = DB::table('bank')->where('userid', $user_id)->first();
-     $new_amountBl = $getBalance->balance + $new_amount;
-     DB::table('bank')
-        ->where('userid', $user_id)
-        ->update(array('balance' => $new_amountBl));
-
-
-    $user = DB::table('users')->where('id', $user_id)->first();
-     $subject = 'You have subscribed to a package' .Config::get('app.name');
-     
-      $message = "<h3>You have successfully subscribed to a package</h1><br><br>
-                      <p>You have successfully subscribed to a package and request is pending. kindly login to your acocunt and make payment as instructed</p>";
-      include 'emails.php';
-      $headers  = 'MIME-Version: 1.0' . "\r\n";
-      $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-      $headers .= 'From: '.Config::get('app.webmail')."\r\n".
-       'Reply-To: '.Config::get('app.webmail')."\r\n" .
-        'X-Mailer: PHP/' . phpversion();
-        $mail = mail($user->email, $subject, $EmaiMessage, $headers);
- 
-   $Querys =DB::table('notification')->insert(
-    array('userid' =>        $user_id,
-         'type' =>        "pack",
-          'details' =>    "You have successfully subscribed to a package", 
-          'status'  =>    "verify",
-          'faIcon'     =>    "fa fa-fire")
-);
-  echo'<div class="alert alert-success" role="alert">
-  You have successfully subscribed to a package and request is pending.
-</div>';
- }
- else{
-  echo '<div class="alert alert-danger" role="alert">
-  Theres error with your request, please try again later
-</div>';
-}
- }
-}
-
-
-
 
 
 
@@ -304,39 +208,20 @@ function ProfileComplete($firstname,$lastname,$phonenumber,$bankname,$accountnum
                        'status' => 1)
        );
     if ($Query) {
-       $value = Session::get('ref');
-       if ($value != "") {
-       $Userref = DB::table('users')->where('id', $value)->first();
+    $value = Session::get('ref');
+    if ($value != "") {
       $refs = DB::table('referral')->where('userid', $value)->first();
-
-      if ($Userref->role_id ==4 or $Userref->role_id ==1)
-        {
-      $receiver = $value;
        DB::table('referral')->insert(
-     array('userid' => $user_id, 
-     'sponsor' => $value,
-     'parent' => $value,
-     'package' => '0',
-     'amount' => '0',
-      'status' => 1)
-      );
-        }
-     else
-    {
-      $receiver = $value;
-         DB::table('referral')->insert(
-     array('userid' => $user_id, 
+     array('userid' => $user_id,
      'sponsor' => $value,
      'parent' => $refs->parent,
      'package' => '0',
      'amount' => '0',
       'status' => 1)
       );
-  }
-    }
-    else{
-      $receiver = 1;
-        DB::table('referral')->insert(
+    }else
+    {
+         DB::table('referral')->insert(
      array('userid' => $user_id,
      'sponsor' => 1,
      'parent' => 1,
@@ -344,63 +229,42 @@ function ProfileComplete($firstname,$lastname,$phonenumber,$bankname,$accountnum
      'amount' => '0',
       'status' => 1)
       );
-    }
-    if ($receiver != 1) {
-     $receeiversNew = $receiver;
-    }
-    else{
-      $receiver = DB::table('activationReceiver')->where('id', 1)->first();
-      $receeiversNew =  $receiver->userid;
-    }
+  }
         $settings = DB::table('settings')->where('id', 1)->first();
       $receiver = DB::table('activationReceiver')->where('id', 1)->first();
          $user = DB::table('users')->where('id', $user_id)->first();
       $settings = DB::table('settings')->where('id', 1)->first();
       $startDate = time();
       $timeNow = date('Y-m-d H:i:s', strtotime('+'.$settings->timeMargin.'day', $startDate));
+    if ($settings->activationFee ==1) {
      $random = DB::table('activationFee')->insert(
-               array('receiver_id' => $receeiversNew,
+               array('receiver_id' => $receiver->userid,
                      'sender_id' => $user->id,
                      'amount' => $settings->activationPrice,
                      'payment_status' => 'pending',
                      'expiringTime' => $timeNow, 
                      'active' => 1)
      );
-       //SMS Notification settings allow or disabled 
-      if ($settings->smsallow ==1) {
-        
-      $message = urlencode("Hi, ".$firstname."  You have successfully registered to NiFunds, you have a pending activation fee. check your dashboard to proceed. https://bit.ly/2FDnK5U");
-      $sender= urlencode("NiFunds");
-      $mobile = $phonenumber;
-       $url = 'http://www.MultiTexter.com/tools/geturl/Sms.php?username='.Config::get('app.sms-username').'&password='.Config::get('app.sms-passowrd').'&sender='.$sender.'&message='.$message .'&flash=0&recipients='. $mobile;
-     $ch = curl_init();
-     curl_setopt($ch,CURLOPT_URL, $url);
-     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-     curl_setopt($ch, CURLOPT_HEADER, 0);
-     $resp = curl_exec($ch);
-     curl_close($ch);
    }
-         DB::table('notification')->insert(
-           array('userid' =>        $user_id,
-         'type' =>        "Welcome",
-          'details' =>    "You have successfully become a registered member on " .Config::get('app.name'), 
-          'status'  =>    "verify",
-          'faIcon'     =>    "fa fa-user-plus")
-         );
+
+     DB::table('messagess')->insert(
+    array('from_user' => 1, 
+         'to_user' => $user_id, 
+         'message' => 'You have successfully register account on '.Config::get('app.name').' and you will get '.$settings->profit.'% ROI on any package you subscribe to, you can always reply to this message to get support and we have section to report member or any related issues using the ticket support and make sure you write in full details and directly to your case to get fast respond by our award winning support team',
+         'reply' => 1, 
+         'read' => 1)
+);
 
        DB::table('notification')->insert(
            array('userid' =>        $user_id,
          'type' =>        "pack",
-          'details' =>    "You have pending activation payment ".$settings->currency."".$settings->activationPrice, 
+          'details' =>    "You have pending activation payment " .$settings->activationPrice, 
           'status'  =>    "verify",
           'faIcon'     =>    "fa fa-usd")
          );
-
-     
       }
-     if ($random) {
-      $accountNum = rand(0000000000,9999999999);
+   
+      $accountNum = rand(0000000000000000,9999999999999999);
     $user = DB::table('bank')->where('accountNum', $accountNum)->first();
     if ($user) {
       $users = DB::table('bank')->where('accountNum', $accountNum)->first();
@@ -415,7 +279,7 @@ function ProfileComplete($firstname,$lastname,$phonenumber,$bankname,$accountnum
                 'accountNum' => $accountNum,
                 'status' => 1)
 );
-      }
+     
     }else{
        DB::table('bank')->insert(
                array('userid' => $user_id,
@@ -480,7 +344,7 @@ function confirmUserPay($user_id, $sender_userid, $id){
   $settings = DB::table('settings')->where('id', 1)->first();
  $sql = DB::table('marching')
         ->where('id', $id)->where('receiver_id', $user_id)->where('sender_id', $sender_userid)
-        ->update(array('payment_status' => 'confirm','expiringTime' => 'NULL'));
+        ->update(array('payment_status' => 'confirm'));
         if ($sql) {
       $TheBalance = DB::table('bank')->where('userid', $user_id)->first();
        $UpdateConfimed = $TheBalance->confirmed + 1;
@@ -517,6 +381,9 @@ function confirmUserPay($user_id, $sender_userid, $id){
        $new_amount = ($percentage / 100) * $totalWidth;
         $balance = $BankSpensor->balance + $new_amount;
 
+          DB::table('bank')
+        ->where('userid', $getRefSpensor->sponsor)
+        ->update(array('balance' => $balance));
        
          DB::table('bank')
         ->where('userid', $getRefSpensor->parent)
@@ -590,25 +457,14 @@ function confirmUserPay($user_id, $sender_userid, $id){
 }
 
 
-function ReportUserMargin($user_id, $sender_userid, $id,$enquiry,$des){
+function ReportUserMargin($user_id, $sender_userid, $id){
 
 
     $user = DB::table('userdetails')->where('userid', $sender_userid)->first();
     $users = DB::table('userdetails')->where('userid', $user_id)->first();
-     $pack = DB::table('marching')->where('receiver_id', $user_id)->where('id', $id)->first();
+     $pack = DB::table('marching')->where('receiver_id', $user_id)->first();
       $row = DB::table('users')->where('id', $user_id)->first();
       $rows = DB::table('users')->where('id', $sender_userid)->first();
-    
-    DB::table('courtcase')->insert(
-             array('userid' => $user_id, 
-                   'accused' => $sender_userid,
-                   'margin_id' => $id,
-                   'type' => $enquiry,
-                   'details' => $des,
-                   'replys' => 0,
-                   'status' => 2)
-    );
-
 
      $subject = 'Reported User for margin unpaid '.$users->accountname.' ' .Config::get('app.name');
      
@@ -637,18 +493,10 @@ function ReportUserMargin($user_id, $sender_userid, $id,$enquiry,$des){
          'type' =>        "confirm",
           'details' =>    "You have successfully report your upline and will be resolved soon", 
           'status'  =>    "verify",
-          'faIcon'     =>    "fa fa-gavel")
-);
-
-         DB::table('notification')->insert(
-    array('userid' =>        $sender_userid,
-         'type' =>        "confirm",
-          'details' =>    "You have been reported to court for ".$enquiry." by ".$users->accountname." Amount ".$pack->amount, 
-          'status'  =>    "verify",
-          'faIcon'     =>    "fa fa-gavel")
+          'faIcon'     =>    "fa fa-fire")
 );
              echo'<div class="alert alert-success" role="alert">
- We have receive your case report and we will look forwark to contact both party. you can check your case here <a href="courtcases.php">My Court Cases</a>
+ We have receive your report and we will look forwark to contact both party.
 </div>';
         }
         else{
@@ -661,25 +509,52 @@ function ReportUserMargin($user_id, $sender_userid, $id,$enquiry,$des){
 
 function recomitmentWithdraw($user_id){
    $settings = DB::table('settings')->where('id', 1)->first();
-     $id = DB::table('requestMaching')->where('userid', $user_id)->where('status', 'active')->count();
+   $id = DB::table('requestMaching')->where('userid', $user_id)->first();
    if ($id) {
-    $TheBalance = DB::table('bank')->where('userid', $user_id)->first();
-  if ($id =="2" || $id=="4" || $id == "6" || $id == "8" || $id == "10" || $id == "12" || $id == "14" || $id == "16" || $id == "18" || $id == "20") {
+
+    $bal = DB::table('requestMaching')->where('userid', $user_id)->sum('amount');
+    $sqls = DB::table('users')->where('username', 'john')->first();
+   $Pack = DB::table('packages')->where('id', $id->package_id)->first(); 
+   
+   $AmountOf = $Pack->price;
+
+    //User Recommitment Percentage
+    $percentage = $settings->reccomitment;
+    $totalWidth = $AmountOf;
+    $new_amount = ($percentage / 100) * $totalWidth;
+    
+    $TotalCal = $new_amount * 2;
+     $TheBalance = DB::table('bank')->where('userid', $user_id)->first();
+
+     if ($TheBalance->balance >= $TotalCal and $TheBalance->confirmed >= 2) {
         echo'<div class="alert alert-success" role="alert">
  Your Recommitment balance is '.$TheBalance->balance.' And you ready to withdraw, click here to withdraw <a href="wallet.php" class="btn btn-danger btn-sm">withdraw</a>
 </div>';
      }
    }
   
-} 
+}
 
 function recomitmentWithdrawPage($user_id){
    $settings = DB::table('settings')->where('id', 1)->first();
-   $id = DB::table('requestMaching')->where('userid', $user_id)->where('status', 'active')->count();
+   $id = DB::table('requestMaching')->where('userid', $user_id)->first();
    if ($id) {
-    $TheBalance = DB::table('bank')->where('userid', $user_id)->first();
-  if ($id =="2" || $id=="4" || $id == "6" || $id == "8" || $id == "10" || $id == "12" || $id == "14" || $id == "16" || $id == "18" || $id == "20") {
- 
+
+    $bal = DB::table('requestMaching')->where('userid', $user_id)->sum('amount');
+    $sqls = DB::table('users')->where('username', 'john')->first();
+   $Pack = DB::table('packages')->where('id', $id->package_id)->first(); 
+   
+   $AmountOf = $Pack->price;
+
+    //User Recommitment Percentage
+    $percentage = $settings->reccomitment;
+    $totalWidth = $AmountOf;
+    $new_amount = ($percentage / 100) * $totalWidth;
+    
+    $TotalCal = $new_amount * 2;
+     $TheBalance = DB::table('bank')->where('userid', $user_id)->first();
+
+     if ($TheBalance->balance >= $TotalCal and $TheBalance->confirmed >= 2) {
         echo '  <div class="col-md-12">
                   <div class="card text-white bg-default">
                     <div class="card-header card-header-transparent">Withdraw Balance</div>
@@ -697,10 +572,6 @@ function recomitmentWithdrawPage($user_id){
                         </div>
                   </div>
                  </div>';
-     }else{
-       echo'<div class="alert alert-danger" role="alert">
- Your Recommitment balance is not mature enough to withdraw kindly PH more to be able to withdraw your Recommitment balance.
-</div>';
      }
    }
   
@@ -715,8 +586,8 @@ $timeX        =   date('Y-m-d H:i:s', strtotime('+'.$settings->getHelpDay.' day'
 $user = DB::table('users')->where('id', $user_id)->first();
 
  $sql =  DB::table('requestHelp')->insert(
-                  array('userid' => $user_id, 
-                         'package_id' => $userPac->package_id,
+                  array('userid' => $user_id,
+                         'package_id' => 1,
                          'pack_name' => $userPac->pack_name,
                          'amount' => $amount,
                          'profit' => $userPac->profit,
@@ -766,50 +637,5 @@ if ($sql) {
   }
 }
 }
- 
 
-
-function  SponsorStats($user_id)
-{
-
-  $sponsorSt = DB::table('referral')->where('sponsor', $user_id)->where('userid', '!=', $user_id)->get();
-
-    $parentD = DB::table('userdetails')->where('userid', $user_id)->first();
-    echo '
-   <div class="tree" style="
-    margin-bottom: 15px;
-">
-     <ul>
-     <li>
-      <a href="#">Parent <br> '.$parentD->accountname.'<br>
-      <i class="fa fa-star" style="color: red;"></i> <i class="fa fa-star" style="color: red;"></i> <i class="fa fa-star" style="color: red;"></i> <i class="fa fa-star" style="color: red;"></i> <i class="fa fa-star" style="color: red;"></i></a>
-      <ul>';
-
-  foreach ($sponsorSt as $key) {
-
-      $spon = DB::table('userdetails')->where('userid', $key->userid)->first();
-    echo '<li>
-          <a href="#">Child <br> '.$spon->accountname.'</a>
-          <ul>';
-       
-    $Grand = DB::table('referral')->where('sponsor', $key->userid)->get();
-   foreach ($Grand as $rows) {
-    $GrandDetails = DB::table('userdetails')->where('userid', $rows->userid)->first();
-       echo '<li>
-              <a href="#">Grand Child <br> '.$GrandDetails->accountname.'</a>
-            </li>';
-
-   }
-        echo '  </ul>
-        </li>
-';
-    }
-     
-  
-
-    echo "  </li>
-  </ul>
-  </div>";
- 
-}
 ?>
