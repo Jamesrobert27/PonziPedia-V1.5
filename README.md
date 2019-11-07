@@ -167,5 +167,9 @@ Internationalization (optional)<br>
 </blockquote>
 
 </blockquote><br></div>
+
+## Warnings and Disclaimers 
+
+This application was created for educational purposes only. It is forbidden to copy, sell and distribute this application in any way. The principle behind this application remains illegal and it is forbidden to make any real use of it. If you decide to break the law, only you can be held responsible and you can ``not`` deny the fact.
         </div>
       
